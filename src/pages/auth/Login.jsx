@@ -18,7 +18,7 @@ export default function Login() {
     <div className="min-h-screen grid lg:grid-cols-2 bg-slate-100">
       {/* ===== LEFT: Branding Section ===== */}
       <div className="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br from-slate-900 to-slate-800 text-white p-12">
-        <h1 className="text-4xl font-bold mb-4">School ERP</h1>
+        <h1 className="text-4xl font-bold mb-4">School Management System</h1>
         <p className="text-slate-300 text-center max-w-sm">
           Manage students, staff, attendance, and school operations with a
           modern, intelligent dashboard designed for administrators and
