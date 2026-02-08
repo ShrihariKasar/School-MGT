@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== BASE BODY STYLE ===== */
+body {
+  font-family: Inter, sans-serif;
+  @apply bg-slate-100 text-slate-800 antialiased;
+}
+
+/* ===== SMOOTH SCROLL ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== SCROLLBAR STYLING (SUBTLE) ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* slate-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
+}
+
+/* ===== REUSABLE DASHBOARD CARD ===== */
+.card {
+  @apply bg-white rounded-2xl shadow border p-5;
+}
+
+/* ===== BUTTON BASE STYLE ===== */
+.btn-primary {
+  @apply bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition;
+}
+
+.btn-success {
+  @apply bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-500 transition;
+}
+
+.btn-danger {
+  @apply bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition;
+}
