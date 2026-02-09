@@ -12,6 +12,17 @@ import Assignments from "../pages/staff/Assignments";
 import ParentMessaging from "../pages/staff/ParentMessaging";
 import LeaveApply from "../pages/staff/LeaveApply";
 import LeaveApproval from "../pages/admin/LeaveApproval";
+import StaffProfile from "../pages/admin/StaffProfile";
+import StudentProfile from "../pages/admin/StudentProfile";
+import Timetable from "../pages/admin/Timetable";
+import Curriculum from "../pages/admin/Curriculum";
+import Holidays from "../pages/admin/Holidays";
+import Announcements from "../pages/admin/Announcements";
+import Regulatory from "../pages/admin/Regulatory";
+import Events from "../pages/admin/Events";
+import Timesheet from "../pages/admin/Timesheet";
+import Examinations from "../pages/admin/Examinations";
+import Assets from "../pages/admin/Assets";
 
 export default function AppRoutes() {
   const { user, loading } = useAuth();
@@ -78,6 +89,94 @@ export default function AppRoutes() {
   element={
     <ProtectedRoute role="admin">
       <LeaveApproval />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/staff/:id"
+  element={
+    <ProtectedRoute role="admin">
+      <StaffProfile />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/students/:id"
+  element={
+    <ProtectedRoute role="admin">
+      <StudentProfile />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/timetable"
+  element={
+    <ProtectedRoute role="admin">
+      <Timetable />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/curriculum"
+  element={
+    <ProtectedRoute role="admin">
+      <Curriculum />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/holidays"
+  element={
+    <ProtectedRoute role="admin">
+      <Holidays />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/announcements"
+  element={
+    <ProtectedRoute role="admin">
+      <Announcements />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/regulatory"
+  element={
+    <ProtectedRoute role="admin">
+      <Regulatory />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/events"
+  element={
+    <ProtectedRoute role="admin">
+      <Events />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/timesheet"
+  element={
+    <ProtectedRoute role="admin">
+      <Timesheet />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/examinations"
+  element={
+    <ProtectedRoute role="admin">
+      <Examinations />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/assets"
+  element={
+    <ProtectedRoute role="admin">
+      <Assets />
     </ProtectedRoute>
   }
 />

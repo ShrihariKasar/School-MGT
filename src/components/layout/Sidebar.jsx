@@ -7,7 +7,15 @@ export default function Sidebar({ role }) {
   { name: "Dashboard", path: "/admin", icon: "📊" },
   { name: "Students", path: "/admin/students", icon: "🎓" },
   { name: "Staff", path: "/admin/staff", icon: "👨‍🏫" },
-  { name: "Leave Approvals", path: "/admin/leaves", icon: "📩" }
+  { name: "Leave Approvals", path: "/admin/leaves", icon: "📩" },
+  { name: "Timetable", path: "/admin/timetable", icon: "📅" },
+  { name: "Curriculum", path: "/admin/curriculum" , icon: "📚" },
+  { name: "Holidays", path: "/admin/holidays", icon: "🎉" },
+  { name: "Announcements", path: "/admin/announcements", icon: "📢" },
+  { name: "Events", path: "/admin/events", icon: "📅" },
+  { name: "Timesheet", path: "/admin/timesheet", icon: "📋" },
+  { name: "Regulatory", path: "/admin/regulatory", icon: "⚖️" },
+  { name: "Assets", path: "/admin/assets", icon: "📦" }
 ];
 
 const staffLinks = [

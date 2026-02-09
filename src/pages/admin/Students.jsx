@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 
 export default function Students() {
+  const navigate = useNavigate();
+
   /* ===== SAMPLE DATA ===== */
   const [students, setStudents] = useState([
     { id: 1, name: "Rahul Sharma", class: "5A" },
@@ -91,10 +94,21 @@ export default function Students() {
                 key={s.id}
                 className="border-t hover:bg-slate-50 transition"
               >
+                {/* Name */}
                 <td className="p-3 font-medium text-slate-800">{s.name}</td>
+
+                {/* Class */}
                 <td className="p-3">{s.class}</td>
 
-                <td className="p-3 text-right">
+                {/* Actions */}
+                <td className="p-3 text-right space-x-3">
+                  <button
+                    onClick={() => navigate(`/admin/students/${s.id}`)}
+                    className="text-indigo-600 hover:underline text-sm"
+                  >
+                    View
+                  </button>
+
                   <button
                     onClick={() => deleteStudent(s.id)}
                     className="text-red-500 hover:underline text-sm"
@@ -114,6 +128,7 @@ export default function Students() {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
             <h2 className="text-lg font-semibold mb-4">Add New Student</h2>
 
+            {/* Name */}
             <input
               type="text"
               placeholder="Student Name"
@@ -122,6 +137,7 @@ export default function Students() {
               className="w-full border rounded-lg px-3 py-2 mb-3"
             />
 
+            {/* Class */}
             <input
               type="text"
               placeholder="Class (e.g., 5A)"
@@ -130,6 +146,7 @@ export default function Students() {
               className="w-full border rounded-lg px-3 py-2 mb-4"
             />
 
+            {/* Buttons */}
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowModal(false)}

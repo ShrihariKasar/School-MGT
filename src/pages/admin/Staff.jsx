@@ -1,20 +1,43 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 
 export default function Staff() {
+  const navigate = useNavigate();
+
   /* ===== SAMPLE DATA ===== */
   const [staff, setStaff] = useState([
-    { id: 1, name: "Mr. Rajesh Kumar", role: "Teacher", subject: "Math" },
-    { id: 2, name: "Ms. Priya Sharma", role: "Teacher", subject: "Science" },
-    { id: 3, name: "Mr. Amit Patil", role: "Clerk", subject: "-" },
+    {
+      id: 1,
+      name: "Mr. Rajesh Kumar",
+      role: "Teacher",
+      subject: "Math",
+      classTeacherOf: "",
+    },
+    {
+      id: 2,
+      name: "Ms. Priya Sharma",
+      role: "Class Teacher",
+      subject: "Science",
+      classTeacherOf: "6A",
+    },
+    {
+      id: 3,
+      name: "Mr. Amit Patil",
+      role: "Clerk",
+      subject: "-",
+      classTeacherOf: "",
+    },
   ]);
 
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     role: "Teacher",
     subject: "",
+    classTeacherOf: "",
   });
 
   /* ===== FILTER ===== */
@@ -30,7 +53,14 @@ export default function Staff() {
     if (!form.name || !form.role) return;
 
     setStaff([...staff, { id: Date.now(), ...form }]);
-    setForm({ name: "", role: "Teacher", subject: "" });
+
+    setForm({
+      name: "",
+      role: "Teacher",
+      subject: "",
+      classTeacherOf: "",
+    });
+
     setShowModal(false);
   };
 
@@ -48,7 +78,7 @@ export default function Staff() {
             Staff Management
           </h1>
           <p className="text-sm text-slate-500">
-            Add, search, and manage school staff records.
+            Manage teachers, class teachers, and non-teaching staff.
           </p>
         </div>
 
@@ -79,6 +109,7 @@ export default function Staff() {
               <th className="p-3">Name</th>
               <th className="p-3">Role</th>
               <th className="p-3">Subject</th>
+              <th className="p-3">Class Teacher Of</th>
               <th className="p-3 text-right">Actions</th>
             </tr>
           </thead>
@@ -86,7 +117,7 @@ export default function Staff() {
           <tbody>
             {filteredStaff.length === 0 && (
               <tr>
-                <td colSpan="4" className="p-6 text-center text-slate-400">
+                <td colSpan="5" className="p-6 text-center text-slate-400">
                   No staff found
                 </td>
               </tr>
@@ -94,11 +125,39 @@ export default function Staff() {
 
             {filteredStaff.map((s) => (
               <tr key={s.id} className="border-t hover:bg-slate-50 transition">
+                {/* Name */}
                 <td className="p-3 font-medium text-slate-800">{s.name}</td>
-                <td className="p-3">{s.role}</td>
+
+                {/* Role Badge */}
+                <td className="p-3">
+                  <span
+                    className={`px-2 py-1 rounded text-xs font-medium ${
+                      s.role === "Class Teacher"
+                        ? "bg-indigo-100 text-indigo-700"
+                        : s.role === "Teacher"
+                        ? "bg-emerald-100 text-emerald-700"
+                        : "bg-slate-100 text-slate-700"
+                    }`}
+                  >
+                    {s.role}
+                  </span>
+                </td>
+
+                {/* Subject */}
                 <td className="p-3">{s.subject || "-"}</td>
 
-                <td className="p-3 text-right">
+                {/* Class Assignment */}
+                <td className="p-3">{s.classTeacherOf || "-"}</td>
+
+                {/* Actions */}
+                <td className="p-3 text-right space-x-3">
+                  <button
+                    onClick={() => navigate(`/admin/staff/${s.id}`)}
+                    className="text-indigo-600 hover:underline text-sm"
+                  >
+                    View
+                  </button>
+
                   <button
                     onClick={() => deleteStaff(s.id)}
                     className="text-red-500 hover:underline text-sm"
@@ -112,12 +171,13 @@ export default function Staff() {
         </table>
       </div>
 
-      {/* ===== MODAL ===== */}
+      {/* ===== ADD STAFF MODAL ===== */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
             <h2 className="text-lg font-semibold mb-4">Add Staff Member</h2>
 
+            {/* Name */}
             <input
               type="text"
               placeholder="Full Name"
@@ -126,26 +186,43 @@ export default function Staff() {
               className="w-full border rounded-lg px-3 py-2 mb-3"
             />
 
+            {/* Role */}
             <select
               value={form.role}
               onChange={(e) => setForm({ ...form, role: e.target.value })}
               className="w-full border rounded-lg px-3 py-2 mb-3"
             >
               <option>Teacher</option>
+              <option>Class Teacher</option>
               <option>Clerk</option>
               <option>Accountant</option>
               <option>Admin</option>
             </select>
 
+            {/* Subject */}
             <input
               type="text"
               placeholder="Subject (for teachers)"
               value={form.subject}
               onChange={(e) => setForm({ ...form, subject: e.target.value })}
-              className="w-full border rounded-lg px-3 py-2 mb-4"
+              className="w-full border rounded-lg px-3 py-2 mb-3"
             />
 
-            <div className="flex justify-end gap-2">
+            {/* Class Teacher Assignment */}
+            {form.role === "Class Teacher" && (
+              <input
+                type="text"
+                placeholder="Class Assigned (e.g., 6A)"
+                value={form.classTeacherOf}
+                onChange={(e) =>
+                  setForm({ ...form, classTeacherOf: e.target.value })
+                }
+                className="w-full border rounded-lg px-3 py-2 mb-3"
+              />
+            )}
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-2 mt-2">
               <button
                 onClick={() => setShowModal(false)}
                 className="px-4 py-2 rounded-lg border"
