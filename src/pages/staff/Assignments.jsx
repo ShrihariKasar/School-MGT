@@ -9,22 +9,28 @@ export default function Assignments() {
       title: "Math Homework – Chapter 3",
       class: "5A",
       dueDate: "2026-02-12",
+      file: "math_hw.pdf",
+      submissions: ["Rahul", "Sneha"],
     },
     {
       id: 2,
       title: "Science Project",
       class: "6B",
       dueDate: "2026-02-15",
+      file: "science_project.pdf",
+      submissions: ["Amit"],
     },
   ]);
 
   const [showModal, setShowModal] = useState(false);
+  const [showSubmissions, setShowSubmissions] = useState(null);
   const [search, setSearch] = useState("");
 
   const [form, setForm] = useState({
     title: "",
     class: "",
     dueDate: "",
+    file: "",
   });
 
   /* ===== FILTER ===== */
@@ -38,14 +44,28 @@ export default function Assignments() {
   const addAssignment = () => {
     if (!form.title || !form.class || !form.dueDate) return;
 
-    setAssignments([...assignments, { id: Date.now(), ...form }]);
-    setForm({ title: "", class: "", dueDate: "" });
+    setAssignments([
+      ...assignments,
+      {
+        id: Date.now(),
+        ...form,
+        submissions: [],
+      },
+    ]);
+
+    setForm({ title: "", class: "", dueDate: "", file: "" });
     setShowModal(false);
   };
 
   /* ===== DELETE ===== */
   const deleteAssignment = (id) => {
     setAssignments(assignments.filter((a) => a.id !== id));
+  };
+
+  const submissionStatus = (count) => {
+    if (count === 0) return "bg-red-100 text-red-700";
+    if (count < 3) return "bg-amber-100 text-amber-700";
+    return "bg-emerald-100 text-emerald-700";
   };
 
   return (
@@ -57,13 +77,13 @@ export default function Assignments() {
             Assignment Management
           </h1>
           <p className="text-sm text-slate-500">
-            Create and manage class assignments.
+            Upload resources and track student submissions.
           </p>
         </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-500 transition"
+          className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-500"
         >
           + Create Assignment
         </button>
@@ -76,7 +96,7 @@ export default function Assignments() {
           placeholder="Search assignments..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
         />
       </div>
 
@@ -88,27 +108,39 @@ export default function Assignments() {
               <th className="p-3">Title</th>
               <th className="p-3">Class</th>
               <th className="p-3">Due Date</th>
+              <th className="p-3">File</th>
+              <th className="p-3">Submissions</th>
               <th className="p-3 text-right">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {filteredAssignments.length === 0 && (
-              <tr>
-                <td colSpan="4" className="p-6 text-center text-slate-400">
-                  No assignments found
-                </td>
-              </tr>
-            )}
-
             {filteredAssignments.map((a) => (
-              <tr key={a.id} className="border-t hover:bg-slate-50 transition">
-                <td className="p-3 font-medium text-slate-800">{a.title}</td>
+              <tr key={a.id} className="border-t hover:bg-slate-50">
+                <td className="p-3 font-medium">{a.title}</td>
                 <td className="p-3">{a.class}</td>
                 <td className="p-3">
                   {new Date(a.dueDate).toLocaleDateString()}
                 </td>
 
+                {/* FILE */}
+                <td className="p-3 text-indigo-600 text-xs">
+                  {a.file || "—"}
+                </td>
+
+                {/* SUBMISSIONS */}
+                <td className="p-3">
+                  <button
+                    onClick={() => setShowSubmissions(a)}
+                    className={`px-2 py-1 rounded text-xs font-medium ${submissionStatus(
+                      a.submissions.length
+                    )}`}
+                  >
+                    {a.submissions.length} submitted
+                  </button>
+                </td>
+
+                {/* ACTIONS */}
                 <td className="p-3 text-right">
                   <button
                     onClick={() => deleteAssignment(a.id)}
@@ -123,7 +155,7 @@ export default function Assignments() {
         </table>
       </div>
 
-      {/* ===== MODAL ===== */}
+      {/* ===== CREATE MODAL ===== */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
@@ -131,7 +163,7 @@ export default function Assignments() {
 
             <input
               type="text"
-              placeholder="Assignment Title"
+              placeholder="Title"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
               className="w-full border rounded-lg px-3 py-2 mb-3"
@@ -139,7 +171,7 @@ export default function Assignments() {
 
             <input
               type="text"
-              placeholder="Class (e.g., 5A)"
+              placeholder="Class"
               value={form.class}
               onChange={(e) => setForm({ ...form, class: e.target.value })}
               className="w-full border rounded-lg px-3 py-2 mb-3"
@@ -149,22 +181,63 @@ export default function Assignments() {
               type="date"
               value={form.dueDate}
               onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
+              className="w-full border rounded-lg px-3 py-2 mb-3"
+            />
+
+            {/* FILE INPUT */}
+            <input
+              type="file"
+              onChange={(e) =>
+                setForm({ ...form, file: e.target.files[0]?.name })
+              }
               className="w-full border rounded-lg px-3 py-2 mb-4"
             />
 
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded-lg border"
+                className="px-4 py-2 border rounded-lg"
               >
                 Cancel
               </button>
 
               <button
                 onClick={addAssignment}
-                className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-500"
+                className="bg-emerald-600 text-white px-4 py-2 rounded-lg"
               >
                 Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== SUBMISSIONS MODAL ===== */}
+      {showSubmissions && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
+            <h2 className="text-lg font-semibold mb-4">
+              Submissions — {showSubmissions.title}
+            </h2>
+
+            {showSubmissions.submissions.length === 0 ? (
+              <p className="text-sm text-slate-500">No submissions yet.</p>
+            ) : (
+              <ul className="space-y-2 text-sm">
+                {showSubmissions.submissions.map((s, i) => (
+                  <li key={i} className="border-b pb-1">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={() => setShowSubmissions(null)}
+                className="px-4 py-2 border rounded-lg"
+              >
+                Close
               </button>
             </div>
           </div>

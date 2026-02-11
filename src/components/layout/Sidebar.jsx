@@ -15,15 +15,19 @@ export default function Sidebar({ role }) {
   { name: "Events", path: "/admin/events", icon: "📅" },
   { name: "Timesheet", path: "/admin/timesheet", icon: "📋" },
   { name: "Regulatory", path: "/admin/regulatory", icon: "⚖️" },
-  { name: "Assets", path: "/admin/assets", icon: "📦" }
+  { name: "Assets", path: "/admin/assets", icon: "📦" },
+  { name: "Examinations", path: "/admin/examinations" , icon: "📝" }
 ];
 
 const staffLinks = [
   { name: "Dashboard", path: "/staff", icon: "📘" },
+  { name: "Class Management", path: "/staff/class", icon: "🏫" },
   { name: "Attendance", path: "/staff/attendance", icon: "📝" },
   { name: "Assignments", path: "/staff/assignments", icon: "📂" },
   { name: "Parent Messaging", path: "/staff/parents", icon: "💬" },
-  { name: "Apply Leave", path: "/staff/leave", icon: "🗓" }
+  { name: "Apply Leave", path: "/staff/leave", icon: "🗓" },
+  { name: "Performance", path: "/staff/performance", icon: "📈" },
+  { name: "Class Events", path: "/staff/events" , icon: "🎉" }
 ];
 
   const links = role === "admin" ? adminLinks : staffLinks;
@@ -32,7 +36,7 @@ const staffLinks = [
     <aside className="w-64 bg-slate-900 text-slate-100 flex flex-col shadow-xl">
       {/* Logo / Title */}
       <div className="px-6 py-5 border-b border-slate-800">
-        <h1 className="text-xl font-bold tracking-wide">School ERP</h1>
+        <h1 className="text-xl font-bold tracking-wide">School Management System</h1>
         <p className="text-xs text-slate-400 mt-1 capitalize">{role} panel</p>
       </div>
 

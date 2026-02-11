@@ -8,6 +8,7 @@ export default function Assets() {
       id: 1,
       name: "Computer System",
       department: "Computer Lab",
+      occupiedBy: "Mr. Rajesh Kumar",
       quantity: 20,
       condition: "Good",
     },
@@ -15,6 +16,7 @@ export default function Assets() {
       id: 2,
       name: "Projector",
       department: "Smart Class",
+      occupiedBy: "Ms. Priya Sharma",
       quantity: 5,
       condition: "Maintenance",
     },
@@ -25,6 +27,7 @@ export default function Assets() {
   const [form, setForm] = useState({
     name: "",
     department: "",
+    occupiedBy: "",
     quantity: "",
     condition: "Good",
   });
@@ -38,6 +41,7 @@ export default function Assets() {
     setForm({
       name: "",
       department: "",
+      occupiedBy: "",
       quantity: "",
       condition: "Good",
     });
@@ -65,7 +69,7 @@ export default function Assets() {
             Asset & Inventory Management
           </h1>
           <p className="text-sm text-slate-500">
-            Track school equipment, quantity, and condition.
+            Track school equipment, assigned staff, quantity, and condition.
           </p>
         </div>
 
@@ -84,6 +88,7 @@ export default function Assets() {
             <tr>
               <th className="p-3">Asset Name</th>
               <th className="p-3">Department</th>
+              <th className="p-3">Occupied by</th>
               <th className="p-3">Quantity</th>
               <th className="p-3">Condition</th>
               <th className="p-3 text-right">Actions</th>
@@ -95,6 +100,7 @@ export default function Assets() {
               <tr key={a.id} className="border-t hover:bg-slate-50">
                 <td className="p-3 font-medium">{a.name}</td>
                 <td className="p-3">{a.department}</td>
+                <td className="p-3">{a.occupiedBy || "—"}</td>
                 <td className="p-3">{a.quantity}</td>
 
                 <td className="p-3">
@@ -127,6 +133,7 @@ export default function Assets() {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
             <h2 className="text-lg font-semibold mb-4">Add New Asset</h2>
 
+            {/* Asset Name */}
             <input
               type="text"
               placeholder="Asset Name"
@@ -135,6 +142,7 @@ export default function Assets() {
               className="w-full border rounded-lg px-3 py-2 mb-3"
             />
 
+            {/* Department */}
             <input
               type="text"
               placeholder="Department"
@@ -145,6 +153,18 @@ export default function Assets() {
               className="w-full border rounded-lg px-3 py-2 mb-3"
             />
 
+            {/* Occupied By */}
+            <input
+              type="text"
+              placeholder="Occupied by (Teacher Name)"
+              value={form.occupiedBy}
+              onChange={(e) =>
+                setForm({ ...form, occupiedBy: e.target.value })
+              }
+              className="w-full border rounded-lg px-3 py-2 mb-3"
+            />
+
+            {/* Quantity */}
             <input
               type="number"
               placeholder="Quantity"
@@ -155,6 +175,7 @@ export default function Assets() {
               className="w-full border rounded-lg px-3 py-2 mb-3"
             />
 
+            {/* Condition */}
             <select
               value={form.condition}
               onChange={(e) =>
@@ -167,6 +188,7 @@ export default function Assets() {
               <option>Damaged</option>
             </select>
 
+            {/* Buttons */}
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowModal(false)}

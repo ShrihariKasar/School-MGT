@@ -23,7 +23,9 @@ import Events from "../pages/admin/Events";
 import Timesheet from "../pages/admin/Timesheet";
 import Examinations from "../pages/admin/Examinations";
 import Assets from "../pages/admin/Assets";
-
+import ClassManagement from "../pages/staff/ClassManagement";
+import Performance from "../pages/staff/Performance";
+import ClassEvents from "../pages/staff/ClassEvents";
 export default function AppRoutes() {
   const { user, loading } = useAuth();
 
@@ -210,6 +212,30 @@ export default function AppRoutes() {
   element={
     <ProtectedRoute role="staff">
       <ParentMessaging />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/staff/class"
+  element={
+    <ProtectedRoute role="staff">
+      <ClassManagement />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/staff/performance"
+  element={
+    <ProtectedRoute role="staff">
+      <Performance />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/staff/events"
+  element={
+    <ProtectedRoute role="staff">
+      <ClassEvents />
     </ProtectedRoute>
   }
 />
