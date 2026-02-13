@@ -65,7 +65,7 @@ const staffLinks = [
 
       {/* Footer */}
       <div className="px-6 py-4 border-t border-slate-800 text-xs text-slate-400">
-        © {new Date().getFullYear()} School ERP
+        © {new Date().getFullYear()} School Management System
       </div>
     </aside>
   );

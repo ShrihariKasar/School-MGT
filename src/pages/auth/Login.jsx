@@ -84,7 +84,7 @@ export default function Login() {
 
           {/* Footer */}
           <p className="text-xs text-slate-400 text-center mt-6">
-            © {new Date().getFullYear()} School ERP System
+            © {new Date().getFullYear()} School Management System
           </p>
         </div>
       </div>
