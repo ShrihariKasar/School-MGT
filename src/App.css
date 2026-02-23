@@ -1,42 +1,42 @@
+/* =====================================================
+   APP LAYOUT CONTROLLER
+   (Layout-level styling only)
+===================================================== */
+
+/* Root container should allow full-width dashboard layouts */
 #root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content wrapper (use inside App.jsx) */
+.app-container {
+  flex: 1;
+  width: 100%;
+  padding: 2rem;
+}
+
+/* Optional constrained layout (if needed) */
+.container-xl {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Section spacing utility */
+.section {
+  margin-bottom: 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Page heading style */
+.page-title {
+  font-size: 1.875rem; /* text-3xl equivalent */
+  font-weight: 600;
+  margin-bottom: 1.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+/* Muted helper text */
+.text-muted {
+  color: rgb(var(--color-muted));
 }

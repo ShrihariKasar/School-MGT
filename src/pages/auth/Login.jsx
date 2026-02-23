@@ -5,87 +5,138 @@ export default function Login() {
   const { login, loading } = useAuth();
 
   const [role, setRole] = useState("admin");
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleLogin = async () => {
+    setSubmitting(true);
+    await login(role);
+    setSubmitting(false);
+  };
 
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center bg-slate-100">
-        <p className="text-slate-500">Loading...</p>
+        <div className="animate-pulse text-slate-500">
+          Initializing System...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-slate-100">
-      {/* ===== LEFT: Branding Section ===== */}
-      <div className="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br from-slate-900 to-slate-800 text-white p-12">
-        <h1 className="text-4xl font-bold mb-4">School Management System</h1>
-        <p className="text-slate-300 text-center max-w-sm">
-          Manage students, staff, attendance, and school operations with a
-          modern, intelligent dashboard designed for administrators and
-          teachers.
-        </p>
-      </div>
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center px-6 bg-gradient-to-br from-slate-200 via-slate-300 to-emerald-200">
 
-      {/* ===== RIGHT: Login Form ===== */}
-      <div className="flex items-center justify-center p-6">
-        <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-slate-800 mb-1">
-            Welcome Back
-          </h2>
-          <p className="text-sm text-slate-500 mb-6">
-            Select your role to continue
-          </p>
+      {/* Background Glow */}
+      <div className="absolute w-[700px] h-[700px] bg-indigo-500/20 rounded-full blur-[120px] top-[-250px] left-[-250px]" />
+      <div className="absolute w-[600px] h-[600px] bg-emerald-400/20 rounded-full blur-[120px] bottom-[-200px] right-[-200px]" />
 
-          {/* Role Selection */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
+      {/* Card */}
+      <div className="relative w-full max-w-md p-[1px] rounded-3xl bg-gradient-to-br from-white/60 to-white/20 shadow-[0_30px_80px_rgba(0,0,0,0.15)]">
+
+        <div className="rounded-3xl bg-white backdrop-blur-xl p-10 transition-all duration-300">
+
+          {/* Header */}
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">
+              School Management
+            </h1>
+            <p className="text-sm text-slate-500 mt-2">
+              Secure access to your dashboard
+            </p>
+          </div>
+
+          {/* Role Toggle */}
+          <div className="relative flex bg-slate-200 rounded-xl p-1 mb-8 shadow-inner">
+            <div
+              className={`absolute top-1 bottom-1 w-1/2 rounded-lg transition-all duration-300 ${
+                role === "admin"
+                  ? "left-1 bg-slate-900"
+                  : "left-1/2 bg-emerald-600"
+              }`}
+            />
             <button
               onClick={() => setRole("admin")}
-              className={`py-2 rounded-lg border text-sm font-medium transition ${
-                role === "admin"
-                  ? "bg-slate-900 text-white border-slate-900"
-                  : "border-slate-300 text-slate-600 hover:bg-slate-50"
+              className={`relative z-10 w-1/2 py-2 text-sm font-medium transition align-middle flex items-center justify-center gap-2 ${
+                role === "admin" ? "text-white" : "text-slate-600"
               }`}
             >
               Admin
             </button>
-
             <button
               onClick={() => setRole("staff")}
-              className={`py-2 rounded-lg border text-sm font-medium transition ${
-                role === "staff"
-                  ? "bg-emerald-600 text-white border-emerald-600"
-                  : "border-slate-300 text-slate-600 hover:bg-slate-50"
+              className={`relative z-10 w-1/2 py-2 text-sm font-medium transition align-middle flex items-center justify-center gap-2 ${
+                role === "staff" ? "text-white" : "text-slate-600"
               }`}
             >
               Staff
             </button>
           </div>
 
-          {/* Fake Inputs (UI only for now) */}
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
-          />
+          {/* Inputs */}
+          <div className="space-y-6">
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full border border-slate-300 rounded-lg px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-slate-400"
-          />
+            {/* Username */}
+            <div className="relative">
+              <input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+                placeholder=" "
+                className="peer w-full px-4 pt-5 pb-2 rounded-xl border border-slate-300 bg-white focus:border-slate-900 focus:ring-2 focus:ring-slate-900/20 outline-none transition"
+              />
+              <label className={`absolute left-4 transition-all duration-200 ${
+                username
+                  ? "top-2 text-xs text-slate-900"
+                  : "top-4 text-sm text-slate-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-slate-900"
+              }`}>
+                Username
+              </label>
+            </div>
 
-          {/* Login Button */}
+            {/* Password */}
+            <div className="relative">
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder=" "
+                className="peer w-full px-4 pt-5 pb-2 pr-14 rounded-xl border border-slate-300 bg-white focus:border-slate-900 focus:ring-2 focus:ring-slate-900/20 outline-none transition"
+              />
+              <label className={`absolute left-4 transition-all duration-200 ${
+                password
+                  ? "top-2 text-xs text-slate-900"
+                  : "top-4 text-sm text-slate-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-slate-900"
+              }`}>
+                Password
+              </label>
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-500 hover:text-slate-900 transition"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          {/* Button */}
           <button
-            onClick={() => login(role)}
-            className="w-full bg-slate-900 text-white py-2.5 rounded-lg font-medium hover:bg-slate-800 transition"
+            onClick={handleLogin}
+            disabled={submitting}
+            className="mt-8 w-full py-3 rounded-xl font-medium text-white bg-gradient-to-r from-slate-900 to-slate-800 shadow-lg hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] transition-all duration-200 disabled:opacity-70 align-middle flex items-center justify-center gap-2"
           >
-            Sign In
+            {submitting ? "Signing In..." : "Sign In"}
           </button>
 
           {/* Footer */}
-          <p className="text-xs text-slate-400 text-center mt-6">
+          <p className="text-xs text-slate-400 text-center mt-8">
             © {new Date().getFullYear()} School Management System
           </p>
+
         </div>
       </div>
     </div>

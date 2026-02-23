@@ -2,50 +2,236 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== BASE BODY STYLE ===== */
-body {
-  font-family: Inter, sans-serif;
-  @apply bg-slate-100 text-slate-800 antialiased;
+/* =====================================================
+   CORE DESIGN TOKENS (Enterprise Grade)
+===================================================== */
+@layer base {
+  :root {
+    /* Radius Scale */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+
+    /* Elevation */
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+
+    /* Colors */
+    --color-bg: 248 250 252;
+    --color-surface: 255 255 255;
+    --color-border: 226 232 240;
+
+    --color-text: 30 41 59;
+    --color-muted: 100 116 139;
+
+    --color-primary: 15 23 42;
+    --color-success: 5 150 105;
+    --color-danger: 239 68 68;
+    --color-warning: 234 179 8;
+    --color-info: 59 130 246;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Inter", sans-serif;
+    background: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+    @apply antialiased;
+  }
 }
 
-/* ===== SMOOTH SCROLL ===== */
-html {
-  scroll-behavior: smooth;
+/* =====================================================
+   DARK MODE SYSTEM (Polished)
+===================================================== */
+@layer base {
+  .dark {
+    --color-bg: 15 23 42;
+    --color-surface: 30 41 59;
+    --color-border: 51 65 85;
+
+    --color-text: 241 245 249;
+    --color-muted: 148 163 184;
+  }
 }
 
-/* ===== SCROLLBAR STYLING (SUBTLE) ===== */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* =====================================================
+   SCROLLBAR SYSTEM
+===================================================== */
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-border));
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-muted));
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9; /* slate-100 */
+/* =====================================================
+   MOTION SYSTEM
+===================================================== */
+@layer utilities {
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slideUp {
+    animation: slideUp 0.4s ease-out forwards;
+  }
+
+  .animate-scaleIn {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1; /* slate-300 */
-  border-radius: 9999px;
+/* =====================================================
+   GLASS + GRADIENT UTILITIES
+===================================================== */
+@layer utilities {
+  .glass {
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg,
+      rgb(var(--color-primary)),
+      rgb(var(--color-info))
+    );
+  }
+
+  .gradient-success {
+    background: linear-gradient(135deg,
+      rgb(var(--color-success)),
+      rgb(var(--color-info))
+    );
+  }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; /* slate-400 */
-}
+/* =====================================================
+   COMPONENT SYSTEM (Professional Scale)
+===================================================== */
+@layer components {
 
-/* ===== REUSABLE DASHBOARD CARD ===== */
-.card {
-  @apply bg-white rounded-2xl shadow border p-5;
-}
+  /* ===== CARD SYSTEM ===== */
+  .card {
+    background: rgb(var(--color-surface));
+    border: 1px solid rgb(var(--color-border));
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    @apply p-6 transition-all duration-300;
+  }
 
-/* ===== BUTTON BASE STYLE ===== */
-.btn-primary {
-  @apply bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition;
-}
+  .card-hover {
+    @apply hover:-translate-y-1;
+    box-shadow: var(--shadow-md);
+  }
 
-.btn-success {
-  @apply bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-500 transition;
-}
+  /* ===== BUTTON SYSTEM ===== */
+  .btn {
+    @apply inline-flex items-center justify-center
+           font-medium transition-all duration-200
+           focus:outline-none;
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1.2rem;
+  }
 
-.btn-danger {
-  @apply bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition;
+  .btn-primary {
+    background: rgb(var(--color-primary));
+    color: white;
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .btn-success {
+    background: rgb(var(--color-success));
+    color: white;
+  }
+
+  .btn-danger {
+    background: rgb(var(--color-danger));
+    color: white;
+  }
+
+  .btn-warning {
+    background: rgb(var(--color-warning));
+    color: white;
+  }
+
+  .btn-soft {
+    background: rgb(var(--color-border));
+    color: rgb(var(--color-text));
+  }
+
+  .btn-soft:hover {
+    background: rgb(var(--color-muted));
+    color: white;
+  }
+
+  /* ===== FORM CONTROLS ===== */
+  .input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgb(var(--color-border));
+    background: rgb(var(--color-surface));
+    transition: all 0.2s ease;
+  }
+
+  .input:focus {
+    border-color: rgb(var(--color-primary));
+    box-shadow: 0 0 0 3px rgba(15,23,42,0.15);
+  }
+
+  /* ===== STATUS BADGES ===== */
+  .badge {
+    @apply text-xs font-medium px-3 py-1 rounded-full;
+  }
+
+  .badge-success {
+    background: rgba(16,185,129,0.1);
+    color: rgb(var(--color-success));
+  }
+
+  .badge-danger {
+    background: rgba(239,68,68,0.1);
+    color: rgb(var(--color-danger));
+  }
+
+  .badge-warning {
+    background: rgba(234,179,8,0.1);
+    color: rgb(var(--color-warning));
+  }
 }
